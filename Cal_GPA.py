@@ -1,6 +1,7 @@
 import csv
 import math
 
+data_file = 'D:\Works\Database Systems\Code\Grade.csv'
 data = []
 grade = []
 credit = []
@@ -22,12 +23,15 @@ def main():
     cal_score()
     cal_GPA()
     print()
+  elif mode == '2':
+    print('Insert Mode')
+    insert()
 
 def read_data(x,y):
   """Read data by select year and term then keep it to list
   https://docs.python.org/3/library/csv.html#reader-objects"""
   data.clear()
-  with open('D:\Works\Database Systems\Code\Grade.csv', newline='') as csvfile:
+  with open(data_file, newline='') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
       if row[0] == x and row[1] == y:
@@ -96,6 +100,19 @@ def display():
   print('Year, Term, Subject ID, Subject, Credit, Grade')
   for row in data:
     print(', '.join(row))
+
+def insert():
+  with open(data_file, 'a', newline='') as csvfile:
+    fieldnames = ['Year', 'Semeter', 'Subject ID', 'Subject', 'Credit', 'Grade']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    year = input('Enter year: ')
+    semeter = input('Enter semeter: ')
+    subject_id = input('Enter subject id: ')
+    subject = input('Enter Subject: ')
+    credit = input('Enter credit: ')
+    grade = input('Enter grade: ')
+
+    writer.writerow({'Year': year, 'Semeter': semeter, 'Subject ID': subject_id, 'Subject': subject, 'Credit': credit, 'Grade': grade})
 
 while True:
   main()
