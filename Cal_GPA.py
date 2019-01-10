@@ -28,7 +28,7 @@ def main():
     insert()
 
 def read_data(x,y):
-  """Read data by select year and term then keep it to list"""
+  '''Read data by select year and term then keep it to list'''
   data.clear()
   with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
@@ -39,7 +39,7 @@ def read_data(x,y):
   return data
 
 def cal_GPA():
-  "This function calculate GPA"
+  '''This function calculate GPA'''
   total_credit = sum(credit)
   total_score = sum(score)
   GPA = total_score/total_credit
@@ -48,7 +48,7 @@ def cal_GPA():
   print("GPA: ",GPA)
 
 def cal_score():
-  "This function calculate score each subject"
+  '''This function calculate score each subject'''
   global credit
 
   credit.clear()
@@ -64,7 +64,7 @@ def cal_score():
   return score
 
 def chage_grade_to_number():
-  "This function change grade form alphabet to numeric and then keep it to list"
+  '''This function change grade form alphabet to numeric and then keep it to list'''
   grade.clear()
   for row in data:
     if row[5] == "A":
@@ -89,9 +89,11 @@ def round_down(n, decimals=0):
 
 def display_subject():
   print()
-  print('Year, Term, Subject ID, Subject, Credit, Grade')
+  print("{:5}|{:8}|{:11}|{:40}|{:8}|{:8}".format('Year', 'Semeter', 'Subject ID', 'Subject', 'Credit', 'Grade'))
+  print('-'*80)
   for row in data:
-    print(', '.join(row))
+    print("{:5}|{:8}|{:11}|{:40}|{:8}|{:8}".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+  print('-'*80)
 
 def insert():
   '''This function add grade into the next row in the same file'''
