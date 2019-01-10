@@ -1,7 +1,7 @@
 import csv
 import math
 
-data_file = 'D:\Works\Database Systems\Code\Grade.csv'
+filename = 'D:\Works\Database Systems\Code\Grade.csv'
 data = []
 grade = []
 credit = []
@@ -18,7 +18,7 @@ def main():
     x = input('Enter year: ')
     y = input('Enter semeter: ')
     read_data(x,y)
-    display()
+    display_subject()
     chage_grade_to_number()
     cal_score()
     cal_GPA()
@@ -28,10 +28,9 @@ def main():
     insert()
 
 def read_data(x,y):
-  """Read data by select year and term then keep it to list
-  https://docs.python.org/3/library/csv.html#reader-objects"""
+  """Read data by select year and term then keep it to list"""
   data.clear()
-  with open(data_file, newline='') as csvfile:
+  with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
       if row[0] == x and row[1] == y:
@@ -41,7 +40,6 @@ def read_data(x,y):
 
 def cal_GPA():
   "This function calculate GPA"
-
   total_credit = sum(credit)
   total_score = sum(score)
   GPA = total_score/total_credit
@@ -58,14 +56,11 @@ def cal_score():
 
   for row in data:
     credit.append(row[4])  # Keep only credit for calculate
-
-  "https://stackoverflow.com/questions/7368789/convert-all-strings-in-a-list-to-int"
   credit = list(map(int, credit))  # Convert string to integer
 
   for i in range(len(credit)):
     score.append(credit[i]*grade[i])
-  # print('Credit: ', credit)
-  # print('Score: ', score)
+
   return score
 
 def chage_grade_to_number():
@@ -86,23 +81,21 @@ def chage_grade_to_number():
       grade.append(1.5)
     elif row[5] == "D":
       grade.append(1)
-  
-  # print(grade)
   return grade
 
 def round_down(n, decimals=0):
-  ''' https://realpython.com/python-rounding/#interlude-rounding-bias '''
   multiplier = 10 ** decimals
   return math.floor(n * multiplier) / multiplier
 
-def display():
+def display_subject():
   print()
   print('Year, Term, Subject ID, Subject, Credit, Grade')
   for row in data:
     print(', '.join(row))
 
 def insert():
-  with open(data_file, 'a', newline='') as csvfile:
+  '''This function add grade into the next row in the same file'''
+  with open(filename, 'a', newline='') as csvfile:
     fieldnames = ['Year', 'Semeter', 'Subject ID', 'Subject', 'Credit', 'Grade']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     year = input('Enter year: ')
@@ -111,7 +104,6 @@ def insert():
     subject = input('Enter Subject: ')
     credit = input('Enter credit: ')
     grade = input('Enter grade: ')
-
     writer.writerow({'Year': year, 'Semeter': semeter, 'Subject ID': subject_id, 'Subject': subject, 'Credit': credit, 'Grade': grade})
 
 while True:
